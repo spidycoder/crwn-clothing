@@ -1,23 +1,82 @@
 import React from "react";
+import { Route, Routes } from "react-router-dom";
+import {
+  collection,
+  getFirestore,
+  onSnapshot,
+  query,
+} from "firebase/firestore";
+import { app } from "../../firebase/firebase-initialise";
+import WithSpinner from "../../component/with-spinner/with-spinner.component";
 
-import SHOP_DATA from "./shop.data.js";
-import CollectionPreview from "../../component/collection-preview/collection-preview.jsx";
+import CollectionPage from "../collection/collection.component";
+import CollectionsOverview from "../../component/collection-overview/collection-overview.component";
+
+const CollectionsOverviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 class ShopPage extends React.Component {
-  constructor(props) {
-    super(props);
+  unsubscribeFromSnapshot = null;
+  state = {
+    loading: true,
+    data: [],
+  };
 
-    this.state = {
-      collections: SHOP_DATA,
-    };
+  componentDidMount() {
+    this.fetchData();
   }
+
+  componentWillUnmount() {
+    if (this.unsubscribeFromSnapshot) {
+      this.unsubscribeFromSnapshot();
+    }
+  }
+
+  fetchData = async () => {
+    try {
+      const db = getFirestore(app);
+      const collectionRef = collection(db, "ShopData");
+      const q = query(collectionRef);
+
+      this.unsubscribeFromSnapshot = onSnapshot(q, (snapshot) => {
+        const newData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        this.setState({ data: newData, loading: false });
+      });
+      
+    } catch (error) {
+      console.error("Error retrieving data: ", error);
+      this.setState({ loading: false });
+    }
+  };
+
   render() {
-    const { collections } = this.state;
+    const { loading, data } = this.state;
+
     return (
       <div className="shop-page">
-        {collections.map(({ id, ...otherCollectionProps }) => (
-          <CollectionPreview key={id} {...otherCollectionProps} />
-        ))}
+        <Routes>
+          {/* this is rendering without WithSpinner */}
+          {/* <Route path="/" element={<CollectionsOverview/>}/> */}
+          {/* <Route path="/:collectionId" element={<CollectionPage />} /> */}
+
+          {/* this rendering is done with WithSpinner */}
+          <Route
+            path="/"
+            element={
+              <CollectionsOverviewWithSpinner isLoading={loading} data={data} />
+            }
+          />
+          <Route
+            path="/:collectionId"
+            element={
+              <CollectionPageWithSpinner isLoading={loading} data={data} />
+            }
+          />
+        </Routes>
       </div>
     );
   }
