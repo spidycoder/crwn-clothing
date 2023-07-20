@@ -8,7 +8,11 @@ import {
 } from "../../redux/cart/cart.selector";
 import StripeCheckoutButton from "../../component/stripe-button/stripe-button.component";
 import CheckoutItem from "../../component/checkout-item/checkout-item";
+import ShareButton from "../../component/share-button/share-button.component";
 
+const Url = "http://localhost:3000/checkout";
+const Title = "CRWN Clothing";
+const shareTitle="Share Your Cart"
 const CheckOutPage = ({ cartItems, total }) => (
   <div className="checkout-page">
     <div className="checkout-header">
@@ -19,10 +23,10 @@ const CheckOutPage = ({ cartItems, total }) => (
         <span>Description</span>
       </div>
       <div className="header-block">
-        <span>Price</span>
+        <span>Quantity</span>
       </div>
       <div className="header-block">
-        <span>Quantity</span>
+        <span>Price</span>
       </div>
       <div className="header-block">
         <span>Remove</span>
@@ -31,8 +35,11 @@ const CheckOutPage = ({ cartItems, total }) => (
     {cartItems.map((cartItem) => (
       <CheckoutItem key={cartItem.id} cartItem={cartItem} />
     ))}
+    <div className="share">
+      <ShareButton url={Url} title={Title} shareTitle={shareTitle}/>
+    </div>
     <div className="total">TOTAL: ₹{total}</div>
-    <StripeCheckoutButton price={total}/>
+    <StripeCheckoutButton price={total} />
   </div>
 );
 const mapStateToProps = createStructuredSelector({

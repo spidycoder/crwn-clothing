@@ -19,6 +19,7 @@ import ContactPage from "./pages/contactpage/contact";
 import { setCurrentUser } from "./redux/user/user-action";
 
 const App = ({ setCurrentUser, currentUser }) => {
+  
   useEffect(() => {
     const db = getFirestore(app);
 
