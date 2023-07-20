@@ -11,7 +11,6 @@ import CheckoutItem from "../../component/checkout-item/checkout-item";
 import ShareButton from "../../component/share-button/share-button.component";
 
 const Url = "http://localhost:3000/checkout";
-const Title = "CRWN Clothing";
 const shareTitle="Share Your Cart"
 const CheckOutPage = ({ cartItems, total }) => (
   <div className="checkout-page">
@@ -36,7 +35,7 @@ const CheckOutPage = ({ cartItems, total }) => (
       <CheckoutItem key={cartItem.id} cartItem={cartItem} />
     ))}
     <div className="share">
-      <ShareButton url={Url} title={Title} shareTitle={shareTitle}/>
+      <ShareButton url={Url} shareTitle={shareTitle}/>
     </div>
     <div className="total">TOTAL: ₹{total}</div>
     <StripeCheckoutButton price={total} />

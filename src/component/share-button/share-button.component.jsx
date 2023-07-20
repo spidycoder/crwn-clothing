@@ -8,7 +8,7 @@ import {
 import { Button, ButtonGroup } from "react-bootstrap";
 import { FaFacebook, FaTwitter, FaWhatsapp } from "react-icons/fa";
 
-const ShareButton = ({ url, title, shareTitle }) => {
+const ShareButton = ({ url, shareTitle }) => {
   const [showShareButtons, setShowShareButtons] = useState(false);
 
   const handleShareClick = () => {
@@ -21,7 +21,7 @@ const ShareButton = ({ url, title, shareTitle }) => {
       {showShareButtons && (
         <ButtonGroup className="mt-2">
           {/* Facebook Share Button */}
-          <FacebookShareButton url={url} quote={title}>
+          <FacebookShareButton url={url}>
             <Button
               variant="info"
               className="share-button"
@@ -32,7 +32,7 @@ const ShareButton = ({ url, title, shareTitle }) => {
           </FacebookShareButton>
 
           {/* Twitter Share Button */}
-          <TwitterShareButton url={url} title={title}>
+          <TwitterShareButton url={url}>
             <Button
               variant="info"
               className="share-button"
@@ -43,7 +43,7 @@ const ShareButton = ({ url, title, shareTitle }) => {
           </TwitterShareButton>
 
           {/* WhatsApp Share Button */}
-          <WhatsappShareButton url={url} title={title}>
+          <WhatsappShareButton url={url}>
             <Button
               variant="info"
               className="share-button"
