@@ -8,6 +8,7 @@ import { createStructuredSelector } from "reselect";
 import AuthProvider from "./component/context/AuthContext";
 import { auth, app } from "./firebase/firebase-initialise";
 
+
 import HomePage from "./pages/homepage/homepage";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./component/header/header.jsx";
